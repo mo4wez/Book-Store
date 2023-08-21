@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+
+{% block page_title %}Sign Up{% endblock page_title %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-success" type="submit">Create Account</button>
+    </form>
+{% endblock content %}

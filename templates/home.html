@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1>Home Page</h1>
+    <br>
     {% if user.is_authenticated %}
         <p><h1 class="text text-primary">Welcome, {{user.username}}</h1></p>
         <a class="btn btn-danger" href="{% url 'logout' %}">Log Out</a>

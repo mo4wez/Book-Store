@@ -1,0 +1,53 @@
+{% extends '_base.html' %}
+
+
+{% block page_title %}Search{% endblock page_title %}
+
+{% block content %}
+    
+    <div class="d-flex justify-content-center">
+        <div class="card shadow my-3 p-5 w-sm-75 w-100">
+            <h1>Search Books</h1>
+            <form method="GET" action="{% url 'book_search' %}">
+                <div class="input-group mb-3">
+                    <div class="input-group-append">
+                        <input type="text" class="form-control" name="query" value="{{ query }}"  placeholder="search" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {% if results %}
+    <div class="container mt-4">
+        <h2>Results for "{{ query }}":</h2>
+        <div class="row flex-row-reverse">
+            {% for book in results %}
+                <div class="card m-2" style="max-width: 45%">
+                    <div class="row g-0 h-100" dir="ltr">
+                        <div class="col-md-4">
+                            {% if book.cover %}
+                                <img src="{{book.cover.url}}"
+                            {% endif %}
+                                class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8 h-100">
+                            <div class="d-flex flex-column justify-content-between h-100">
+                                <div class="card-body">
+                                    <h3 class="card-title"><strong>{{book.title}}</strong></h3>
+                                    <p class="card-text pt-3" dir="ltr">{{book.description | truncatewords:30}}</p>
+                                <p class="text-muted">Author: {{book.author}}</p>
+                                <a class="btn btn-outline-info" href="{{book.get_absolute_url}}">Show More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <h2>There is no result for "{{ query }}":</h2>
+    {% endif %}
+
+{% endblock content %}

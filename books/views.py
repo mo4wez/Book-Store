@@ -55,3 +55,15 @@ class BookDeleteView(generic.DeleteView):
     model = Book
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy('books_list')
+
+def book_search_view(request):
+    if request.method == "GET":
+        query = request.GET.get('query')
+
+        if query:
+            results = Book.objects.filter(title__icontains=query)
+        else:
+            results = []
+    
+    context = {'results': results, 'query': query}
+    return render(request, 'books/book_search.html', context)

@@ -9,9 +9,10 @@
         <div class="card shadow my-3 p-5 w-sm-75 w-100">
             <h1>Search Books</h1>
             <form method="GET" action="{% url 'book_search' %}">
+                {% csrf_token %}
                 <div class="input-group mb-3">
                     <div class="input-group-append">
-                        <input type="text" class="form-control" name="query" value="{{ query }}"  placeholder="search" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" name="query"  placeholder="search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>
@@ -21,7 +22,7 @@
     
     {% if results %}
     <div class="container mt-4">
-        <h2>Results for "{{ query }}":</h2>
+        <h2>Results for {{query}}:</h2>
         <div class="row flex-row-reverse">
             {% for book in results %}
                 <div class="card m-2" style="max-width: 45%">
@@ -47,7 +48,7 @@
             {% endfor %}
         </div>
         {% else %}
-        <h2>There is no result for "{{ query }}":</h2>
+        <h2>You didn't search anything yet!</h2>
     {% endif %}
 
 {% endblock content %}

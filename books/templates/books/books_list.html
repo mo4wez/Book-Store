@@ -1,0 +1,12 @@
+{% extends '_base.html' %}
+
+{% block page_title %}Books{% endblock page_title %}
+
+{% block content %}
+    {% for book in books %}
+        <br>
+        <h2>Title: {{book.title}}</h2>
+        <h6>Author: {{book.author}}</h6>
+        <a class="btn btn-outline-primary" href="{{book.get_absolute_url}}">Show More</a>
+    {% endfor %}
+{% endblock content %}

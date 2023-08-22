@@ -3,12 +3,72 @@
 {% block page_title %}{{book.title}}{% endblock page_title %}
 
 {% block content %}
-    <h1>Title: {{book.title}}</h1>
-    <h5>Author: {{book.author}}</h5>
-    <h5>Price: {{book.price}}</h5>
-    <br>
-    <p>{{book.description}}</p>
-    <br><br>
-    <a class="btn btn-outline-primary" href="{% url 'book_update' book.id %}">Edit</a>
-    <a class="btn btn-outline-danger" href="{% url 'book_delete' book.id %}">Delete</a>
+<div class="container mt-5" dir="ltr">
+    <div class="">
+        <div class="">
+            <div class="d-flex justify-content-center">
+                <div class="row w-sm-75 w-100">
+                    <div class="col-xs-12 col-md-3 d-flex justify-content-center">
+                        <div>
+                            {% if book.cover %}
+                                <img src="{{book.cover.url}}" class="shadow img-fluid rounded-start" alt="...">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6  text-md-end mt-md-1 mt-4">
+                        <h1>{{book.title}}</h1>
+                        <h5 class="normal my-3"><span class="text-muted">Author: </span>{{book.author}}</h5>
+                        <h5 class="normal my-3"><span class="text-muted">Added By: </span>{{book.user}}</h5>
+                        {% if book.user == user %}
+                            <a class="btn btn-primary" href="{% url 'book_update' book.id %}">Edit</a>
+                            <a class="btn btn-danger" href="{% url 'book_delete' book.id %}">Delete</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-12 col-md-3 d-flex flex-column">
+                        <h3 class="align-self-center pt-2 text-muted align-self-md-end">
+                        {{book.price}} $
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="my-3 p-5 w-sm-75 w-100">
+                    {{book.description | linebreaks}}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="card shadow my-3 p-5 w-sm-75 w-100">
+                    <h2 class="mb-5">Reviews:</h2>
+                        comments
+                        {% comment %} {% for comment in comments %}
+                            {% if comment.is_active %}
+                                <div class="border-bottom mb-3">
+                                    <h5 class="mb-3">{{comment.user}}</h5>
+                                    {% if comment.recommended %}
+                                        <h6 class="text text-success">Suggested</h6>
+                                    {% else %}
+                                        <h6 class="text text-danger">Not Suggested</h6>
+                                    {% endif %}
+                                    <p>{{comment.text | linebreaks}}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %} {% endcomment %}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="card shadow my-3 p-5 w-sm-75 w-100">
+                    <h3>Your Review:</h3>
+                        Form
+                    {% comment %} <form method="POST">
+                        {% csrf_token %}
+                        {{comment_form | crispy}}
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </form> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

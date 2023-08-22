@@ -1,12 +1,33 @@
 {% extends '_base.html' %}
 
+
 {% block page_title %}Books{% endblock page_title %}
 
 {% block content %}
-    {% for book in books %}
-        <br>
-        <h2>Title: {{book.title}}</h2>
-        <h6>Author: {{book.author}}</h6>
-        <a class="btn btn-outline-primary" href="{{book.get_absolute_url}}">Show More</a>
-    {% endfor %}
+    <div class="container mt-4">
+        <div class="row flex-row-reverse">
+            {% for book in books %}
+                <div class="card m-2" style="max-width: 45%">
+                    <div class="row g-0 h-100" dir="rtl">
+                        <div class="col-md-4">
+                            {% if book.cover %}
+                                <img src="{{book.cover.url}}"
+                            {% endif %}
+                                class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8 h-100">
+                            <div class="d-flex flex-column justify-content-between h-100">
+                                <div class="card-body">
+                                    <h3 class="card-title"><strong>{{book.title}}</strong></h3>
+                                    <p class="card-text pt-3">{{book.description | truncatewords:30}}</p>
+                                <p class="text-muted">Author: {{book.author}}</p>
+                                <a class="btn btn-outline-info" href="{{book.get_absolute_url}}">Show More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock content %}

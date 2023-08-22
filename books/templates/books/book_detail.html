@@ -1,5 +1,7 @@
 {% extends '_base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block page_title %}{{book.title}}{% endblock page_title %}
 
 {% block content %}
@@ -40,32 +42,30 @@
             <div class="d-flex justify-content-center">
                 <div class="card shadow my-3 p-5 w-sm-75 w-100">
                     <h2 class="mb-5">Reviews:</h2>
-                        comments
-                        {% comment %} {% for comment in comments %}
+                        {% for comment in comments %}
                             {% if comment.is_active %}
                                 <div class="border-bottom mb-3">
-                                    <h5 class="mb-3">{{comment.user}}</h5>
+                                    <h5 class="mb-3">{{comment.user}} said:</h5>
+                                    <p>{{comment.text | linebreaks}}</p>
                                     {% if comment.recommended %}
                                         <h6 class="text text-success">Suggested</h6>
                                     {% else %}
                                         <h6 class="text text-danger">Not Suggested</h6>
                                     {% endif %}
-                                    <p>{{comment.text | linebreaks}}</p>
                                 </div>
                             {% endif %}
-                        {% endfor %} {% endcomment %}
+                        {% endfor %}
                 </div>
             </div>
 
             <div class="d-flex justify-content-center">
                 <div class="card shadow my-3 p-5 w-sm-75 w-100">
                     <h3>Your Review:</h3>
-                        Form
-                    {% comment %} <form method="POST">
+                    <form method="POST">
                         {% csrf_token %}
                         {{comment_form | crispy}}
                         <button type="submit" class="btn btn-primary">Send</button>
-                    </form> {% endcomment %}
+                    </form>
                 </div>
             </div>
         </div>
